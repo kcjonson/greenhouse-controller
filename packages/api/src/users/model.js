@@ -28,7 +28,7 @@ export const schema = {
     required: true,
     errors: {
       type: 'Password name must be a string.',
-      required: 'Password name is required.'
+      required: 'Password is required.'
     }
   },
 };
@@ -42,12 +42,11 @@ function cleanUpUserObject(user) {
     if (value === null || value === undefined) delete user[key];
   }
 
-
-
   return user;
 }
 
 export default function transformResponse(result) {
+
   if (result.users) {
     result = result.users.map((obj) => cleanUpUserObject(obj));
   }
