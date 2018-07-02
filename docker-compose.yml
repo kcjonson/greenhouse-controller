@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+  api:
+    build: ./packages/api
+    command: npm run dev
+    volumes:
+      - ./packages/api:/usr/src/greenhouse-controller-api
+      - /usr/src/greenhouse-controller-api/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: postgres://greenhouse@postgres/greenhouse
+      PORT: 3000
+  postgres:
+    image: postgres:9.6.2-alpine
+    environment:
+      POSTGRES_USER: greenhouse
+      POSTGRES_DB: greenhouse
+    ports:
+      - "5433:5432"
+  redis:
+    image: redis

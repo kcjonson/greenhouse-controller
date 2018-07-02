@@ -1,0 +1,41 @@
+{
+  "name": "greenhouse-controller-api",
+  "author": "Kevin Jonson <kcjonson@gmail.com>",
+  "description": "Greenhouse Controller API Server",
+  "version": "1.0.0",
+  "license": "ISC",
+  "scripts": {
+    "clean": "rm -rf build && mkdir build",
+    "build-server": "babel src --out-dir build -s --ignore src/**/*.spec.js",
+    "build": "npm run clean && npm run build-server",
+    "prestart": "npm run build && npm run migrate",
+    "start": "node ./build/index.js",
+    "lint": "eslint src",
+    "test": "jest",
+    "watch-tests": "esw src & jest --watchAll",
+    "dev": "nodemon --watch ./src --ignore ./src/**/*.spec.js -x \"npm start\"",
+    "coverage": "jest --coverage",
+    "migrate": "node ./node_modules/db-migrate/bin/db-migrate up all"
+  },
+  "dependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.1",
+    "db-migrate": "^0.11.1",
+    "db-migrate-pg": "^0.4.0",
+    "express": "^4.15.2",
+    "express-simple-errors": "^1.0.0",
+    "isvalid": "^1.6.6",
+    "pg": "^6.1.3"
+  },
+  "devDependencies": {
+    "babel-jest": "^19.0.0",
+    "eslint": "^3.17.1",
+    "eslint-watch": "^3.0.1",
+    "jest": "^19.0.2",
+    "nodemon": "^1.11.0",
+    "supertest": "^3.0.0"
+  }
+}
