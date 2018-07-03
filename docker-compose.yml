@@ -7,13 +7,22 @@ services:
       - ./packages/api:/usr/src/greenhouse-controller-api
       - /usr/src/greenhouse-controller-api/node_modules
     ports:
-      - "3000:3000"
+      - "3001:3001"
     depends_on:
       - postgres
       - redis
     environment:
       DATABASE_URL: postgres://greenhouse@postgres/greenhouse
-      PORT: 3000
+      PORT: 3001
+  web:
+    build: ./packages/web
+    command: npm run start
+    volumes:
+      - ./packages/web:/usr/src/greenhouse-controller-web
+      - /usr/src/greenhouse-controller-web/node_modules
+    ports:
+      - "3000:3000"
+      - "35729:35729"
   postgres:
     image: postgres:9.6.2-alpine
     environment:

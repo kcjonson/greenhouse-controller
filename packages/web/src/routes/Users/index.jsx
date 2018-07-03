@@ -20,7 +20,7 @@ export default class Users extends Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3000/users`)
+    fetch(`http://localhost:8090/api/users`)
       .then(response => response.json())
       .catch(error => console.error('Error:', error))
       .then(usersData => {
