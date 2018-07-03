@@ -23,3 +23,11 @@ services:
       - "5433:5432"
   redis:
     image: redis
+  proxy:
+    image: nginx:alpine
+    ports:
+    - "8090:8090"
+    volumes:
+      - ./site.conf:/etc/nginx/conf.d/site.conf
+    depends_on:
+      - api

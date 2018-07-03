@@ -9,7 +9,9 @@ https://medium.com/@nickpeleh/dockerizing-a-node-js-web-app-with-redis-and-postg
 
 # Starting the servers locally
 
-docker-compose up
+start `docker-compose up`
+
+rebuild all containers and start `docker-compose up --force-recreate`
 
 
 
@@ -45,6 +47,19 @@ delete all stopped containers with `docker rm -v $(docker ps -a -q)`
 
 delete all images with `docker rmi $(docker images -q)`
 
+warning: this deletes databases!
 force delete all images: `docker rmi -f $(docker images -q)`
 
+warning: this deletes databases!
 prune volumes: `docker volume prune`
+
+
+
+
+
+# nginx info
+
+## host not found in upstream
+
+Solution: set fail_timeout=5s max_fails=5 to allow server to come up
+https://stackoverflow.com/questions/33639138/docker-networking-nginx-emerg-host-not-found-in-upstream
