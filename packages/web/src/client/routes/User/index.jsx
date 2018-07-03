@@ -21,7 +21,7 @@ export default class User extends Component {
   }
 
   get() {
-    fetch(`http://localhost:8090/api/users/${this.props.match.params.userId}`)
+    fetch(`/api/users/${this.props.match.params.userId}`)
       .then(response => response.json())
       .catch(error => console.error('Error:', error))
       .then(userData => {
@@ -36,7 +36,7 @@ export default class User extends Component {
     this.setState({
       status: 'SAVING',
     })
-    fetch('http://localhost:8090/api/users', {
+    fetch('/api/users', {
       method: 'POST',
       body: JSON.stringify(this.state.user),
       headers: {
@@ -60,7 +60,7 @@ export default class User extends Component {
     this.setState({
       status: 'SAVING',
     })
-    fetch(`http://localhost:8090/api/users/${this.state.user.id}`, {
+    fetch(`/api/users/${this.state.user.id}`, {
       method: 'DELETE',
       body: JSON.stringify(this.state.user)
     }).catch(error => console.error('Error:', error))

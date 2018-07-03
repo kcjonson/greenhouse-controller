@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 
 const renderUsers = (usersData = []) => {
   if (usersData.length > 0) {
     return usersData.map(userData => {
       return (<div key={userData.id}>
-        <a href={`/users/${userData.id}`}>{userData.firstname} {userData.lastname}</a>
+        <Link to={`/users/${userData.id}`}>{userData.firstname} {userData.lastname}</Link>
       </div>)
     })
   } else {
@@ -20,7 +21,7 @@ export default class Users extends Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:8090/api/users`)
+    fetch(`/api/users`)
       .then(response => response.json())
       .catch(error => console.error('Error:', error))
       .then(usersData => {
@@ -35,7 +36,7 @@ export default class Users extends Component {
     return (<div className="Users">
       <h2>Users</h2>
       {this.state.loading ? null : renderUsers(this.state.users)}
-      <a href={`/users/new`}>Create New</a>
+      <Link to={`/users/new`}>Create New</Link>
     </div>);
   }
 };

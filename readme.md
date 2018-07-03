@@ -11,6 +11,8 @@ https://medium.com/@nickpeleh/dockerizing-a-node-js-web-app-with-redis-and-postg
 
 start `docker-compose up`
 
+rebuild a particular container `docker-compose build --no-cache CONTAINER`
+
 rebuild all containers and start `docker-compose up --force-recreate`
 
 
