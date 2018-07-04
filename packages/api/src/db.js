@@ -54,4 +54,4 @@ function deleteById(table, id) {
   return query(`DELETE FROM ${table} WHERE id = ${id}`);
 }
 
-export default {all, clear, create, deleteById, getById, update};
+export default {query, all, clear, create, deleteById, getById, update};
