@@ -3,9 +3,11 @@ services:
   api:
     build: ./packages/api
     command: npm run dev
+    restart: always
     volumes:
-      - ./packages/api:/usr/src/greenhouse-controller-api
-      - /usr/src/greenhouse-controller-api/node_modules
+      - ./packages/api:/usr/packages/api
+      - ./shared:/usr/packages/api/src/shared
+      - /usr/packages/api/node_modules
     depends_on:
       - postgres
       - redis
@@ -17,9 +19,11 @@ services:
   web:
     build: ./packages/web
     command: npm run dev
+    restart: always
     volumes:
-      - ./packages/web:/usr/src/greenhouse-controller-web
-      - /usr/src/greenhouse-controller-web/node_modules
+      - ./packages/web:/usr/packages/web
+      - ./shared:/usr/packages/web/src/shared
+      - /usr/packages/web/node_modules
     depends_on:
       - redis
     environment:
@@ -28,6 +32,7 @@ services:
       PORT: 3000
   postgres:
     image: postgres:9.6.2-alpine
+    restart: always
     environment:
       POSTGRES_USER: greenhouse
       POSTGRES_DB: greenhouse
@@ -35,8 +40,10 @@ services:
       - "5433:5432"
   redis:
     image: redis
+    restart: always
   proxy:
     image: nginx:alpine
+    restart: always
     ports:
     - "8090:8090"
     volumes:

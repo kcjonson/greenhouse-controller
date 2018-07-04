@@ -2,10 +2,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import ErrorHandler from 'express-simple-errors';
+import {setupSession, sessionChecker} from './session';
 import usersRoutes from './users/routes';
 import authRoutes from './auth/routes';
 
 const app = express();
+setupSession(app);
 
 // app middleware
 app.use(cors());

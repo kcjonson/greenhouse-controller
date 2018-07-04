@@ -3,5 +3,6 @@
   "author": "Kevin Jonson <kcjonson@gmail.com>",
   "description": "Greenhouse Controller",
   "version": "1.0.0",
-  "license": "ISC"
+  "license": "ISC",
+  "private": true
 }

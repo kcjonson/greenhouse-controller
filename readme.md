@@ -18,6 +18,14 @@ recreate all containers and start `docker-compose up --force-recreate`
 
 
 
+# Expected Behavior of node_modules
+
+* You should not have to have done a `yarn install` on your local checkout in order to run `docker-compose up`
+* If you have done a local `yarn install` the installed modules will not be copied to the containers
+* The `node_modules` folder in containers should be cached from build to build
+* We have to manually copy the shared dependency(s) into containers since they run in isolation, hoisting will not work, and they're not valid packages for a `yarn install`
+
+
 
 # Running Tests
 
@@ -56,7 +64,7 @@ force delete all images: `docker rmi -f $(docker images -q)`
 warning: this deletes databases!
 prune volumes: `docker volume prune`
 
-
+nuke from orbit: `docker system prune -a`
 
 
 

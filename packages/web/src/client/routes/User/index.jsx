@@ -21,8 +21,9 @@ export default class User extends Component {
   }
 
   get() {
-    fetch(`/api/users/${this.props.match.params.userId}`)
-      .then(response => response.json())
+    fetch(`/api/users/${this.props.match.params.userId}`, {
+      credentials: "same-origin",     
+    }).then(response => response.json())
       .catch(error => console.error('Error:', error))
       .then(userData => {
         this.setState({
@@ -38,6 +39,7 @@ export default class User extends Component {
     })
     fetch('/api/users', {
       method: 'POST',
+      credentials: "same-origin",
       body: JSON.stringify(this.state.user),
       headers: {
         'content-type': 'application/json'
@@ -61,6 +63,7 @@ export default class User extends Component {
       status: 'SAVING',
     })
     fetch(`/api/users/${this.state.user.id}`, {
+      credentials: "same-origin",
       method: 'DELETE',
       body: JSON.stringify(this.state.user)
     }).catch(error => console.error('Error:', error))

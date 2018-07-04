@@ -18,6 +18,7 @@ export default class Login extends Component {
     fetch('/api/login', {
       method: 'POST',
       body: JSON.stringify(this.state.user),
+      credentials: "same-origin",
       headers: {
         'content-type': 'application/json'
       },
@@ -35,6 +36,7 @@ export default class Login extends Component {
     })
     .then(userData => {
       if (userData) {
+        console.log('logged in successfully')
         this.props.history.push(`/`)
       }
     });

@@ -1,6 +1,7 @@
 import express from 'express';
 import { validate } from 'isvalid';
 import { errors } from 'express-simple-errors';
+import { sessionChecker } from '../session';
 import  { schema, transformResponse, hashPassword } from './model';
 import db from '../db';
 const userTable = 'users';
@@ -9,11 +10,13 @@ export default function ()  {
   const router = express.Router();
 
   router.route('/')
+    .all(sessionChecker)
     .get(getAllUsers, returnResponse)
     .post(validate.body(schema), createUser, returnResponse)
     .delete(clearUsers, returnResponse);
 
   router.route('/:id')
+    .all(sessionChecker)
     .all(getOneUser)
     .get(returnResponse)
     .patch(patchUser, returnResponse)

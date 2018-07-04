@@ -14,6 +14,7 @@ export default function ()  {
   const router = express.Router();
 
   router.route('/login').post(async (req, res, next) => {
+    console.log('logging in')
     const username = req.body.username;
     const password = req.body.password;
     let user = await db.query(`SELECT * FROM ${userTable} WHERE username = '${username}'`, req.params.id)
@@ -26,10 +27,19 @@ export default function ()  {
       return next(new Error('Passwords do not match'));
     }
     delete user.password;
-    //req.session.user = user;
+    console.log('setting user on session', user)
+    req.session.user = user;
+    req.session.authorized = true;
+
+    console.log(req.session)
     res.json(user);
   });
 
+  router.route('/logout').post(async (req, res) => {
+    console.log('logging out')
+    req.session.authorized = false;
+    res.send("logout success!");
+  });
 
   return router;
 }

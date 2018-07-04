@@ -21,8 +21,9 @@ export default class Users extends Component {
   }
 
   componentDidMount() {
-    fetch(`/api/users`)
-      .then(response => response.json())
+    fetch(`/api/users`, {
+      credentials: "same-origin",
+    }).then(response => response.json())
       .catch(error => console.error('Error:', error))
       .then(usersData => {
         this.setState({
