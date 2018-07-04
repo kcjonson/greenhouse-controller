@@ -1,7 +1,7 @@
 import express from 'express';
 import { validate } from 'isvalid';
 import { errors } from 'express-simple-errors';
-import transformResponse, { schema } from './model'; // eslint-disable-line no-unused-variables
+import  { schema, transformResponse, hashPassword } from './model';
 import db from '../db';
 const userTable = 'users';
 
@@ -34,11 +34,9 @@ export default function ()  {
   }
 
   async function createUser(req, res, next) {
-    if (req.body.order) {
-      req.body.position = req.body.order;
-      delete req.body.order;
-    }
-    const user = await db.create(userTable, req.body)
+    const newUser = req.body;
+    newUser.password = hashPassword(req.body.password)
+    const user = await db.create(userTable, newUser)
       .catch((err) => next(err));
     res.locals.user = user[0];
     res.status(201);
@@ -57,11 +55,9 @@ export default function ()  {
 
   async function patchUser(req, res, next) {
     const user = Object.assign({}, res.locals.user[0], req.body);
-    if (user.order) {
-      user.position = user.order;
-      delete user.order;
+    if (req.body && req.body.password) {
+      user.password = hashPassword(req.body.password)
     }
-
     const updatedUser = await db.update(userTable, req.params.id, user)
       .catch((err) => next(err));
     res.locals.user = updatedUser[0];

@@ -44,7 +44,7 @@ app.use((req, res, next) => {
 // middleware function to check for logged-in users
 const sessionChecker = (req, res, next) => {
   console.log('req.session', req.session);
-  if (req.session.user && req.cookies.user_sid) {
+  if ((req.session.user && req.cookies.user_sid) || false) {
     next();
   } else {
     res.redirect('/login');
@@ -54,7 +54,6 @@ const sessionChecker = (req, res, next) => {
 const sendIndex = (res) => {
   res.sendFile(path.join(__dirname, '../client', 'index.html'));
 }
-
 
 app.get('/login', (req, res) => {
   sendIndex(res);

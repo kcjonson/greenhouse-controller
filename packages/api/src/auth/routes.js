@@ -2,6 +2,7 @@
 
 import express from 'express';
 import { errors } from 'express-simple-errors';
+import bcrypt from 'bcryptjs';
 //import transformResponse, { schema } from './model'; // eslint-disable-line no-unused-variables
 import db from '../db';
 const userTable = 'users';
@@ -13,17 +14,20 @@ export default function ()  {
   const router = express.Router();
 
   router.route('/login').post(async (req, res, next) => {
-    console.log('login', req.body)
     const username = req.body.username;
     const password = req.body.password;
-
-    const user = await db.query(`SELECT * FROM ${userTable} WHERE username=${username}`, req.params.id)
+    let user = await db.query(`SELECT * FROM ${userTable} WHERE username = '${username}'`, req.params.id)
       .catch((err) => next(err));
-    res.locals.user = user && user[0];
-    if (!res.locals.user) {
+    user =  user && user[0];
+    if (!user) {
       return next(new errors.NotFound('This user does not exist'));
     }
-    res.json({});
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(new Error('Passwords do not match'));
+    }
+    delete user.password;
+    //req.session.user = user;
+    res.json(user);
   });
 
 

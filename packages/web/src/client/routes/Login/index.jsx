@@ -34,7 +34,9 @@ export default class Login extends Component {
       })
     })
     .then(userData => {
-      this.props.history.push(`/`)
+      if (userData) {
+        this.props.history.push(`/`)
+      }
     });
   }
 
