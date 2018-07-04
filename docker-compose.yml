@@ -11,6 +11,8 @@ services:
       - redis
     environment:
       DATABASE_URL: postgres://greenhouse@postgres/greenhouse
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       PORT: 3001
   web:
     build: ./packages/web
@@ -18,7 +20,11 @@ services:
     volumes:
       - ./packages/web:/usr/src/greenhouse-controller-web
       - /usr/src/greenhouse-controller-web/node_modules
+    depends_on:
+      - redis
     environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       PORT: 3000
   postgres:
     image: postgres:9.6.2-alpine

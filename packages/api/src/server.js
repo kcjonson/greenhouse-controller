@@ -2,7 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import ErrorHandler from 'express-simple-errors';
-import routes from './users/routes';
+import usersRoutes from './users/routes';
+import authRoutes from './auth/routes';
 
 const app = express();
 
@@ -14,7 +15,9 @@ app.use(bodyParser.json({type: 'application/json'}));
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag
 app.disable('etag');
 
-app.use('/users', routes());
+app.use('/', authRoutes());
+app.use('/users', usersRoutes());
+
 
 
 // validation errors are not typed correctly - changing here
