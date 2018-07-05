@@ -6,7 +6,7 @@ import  { schema, transformResponse, hashPassword } from './model';
 import db from '../db';
 const userTable = 'users';
 
-export default function ()  {
+export default function() {
   const router = express.Router();
 
   router.route('/')
@@ -41,9 +41,13 @@ export default function ()  {
     newUser.password = hashPassword(req.body.password)
     const user = await db.create(userTable, newUser)
       .catch((err) => next(err));
-    res.locals.user = user[0];
-    res.status(201);
-    next();
+    if (user && user[0]) {
+      res.locals.user = user[0];
+      res.status(201);
+      next();
+    } else {
+      next(new Error('Unable to create user'))
+    }
   }
 
   async function getOneUser(req, res, next) {
@@ -57,7 +61,12 @@ export default function ()  {
   }
 
   async function patchUser(req, res, next) {
-    const user = Object.assign({}, res.locals.user[0], req.body);
+    let user;
+    if (res.locals.user) {
+      user = Object.assign({}, res.locals.user[0], req.body);
+    } else {
+      next();
+    }
     if (req.body && req.body.password) {
       user.password = hashPassword(req.body.password)
     }

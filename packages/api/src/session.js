@@ -8,7 +8,7 @@ export function sessionChecker(req, res, next) {
     if (req.session && req.session.authorized === true) {
         next();
     } else {
-        res.send(401, {error: 'Unauthorized'});
+        res.status(401).send({error: 'Unauthorized'});
     }    
 };
 

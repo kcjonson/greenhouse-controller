@@ -1,8 +1,7 @@
 {
-  "dev": {
+  "development": {
     "driver": "pg",
     "user": "greenhouse",
-    "password": "greenhouse1234",
     "host": "localhost",
     "database": "greenhouse"
   }
