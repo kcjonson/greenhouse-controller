@@ -33,7 +33,7 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
   postgres:
-    image: postgres:9.6.2-alpine
+    image: postgres:latest
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}

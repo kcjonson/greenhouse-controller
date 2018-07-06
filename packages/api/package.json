@@ -8,14 +8,15 @@
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel src --out-dir build -s --ignore *.spec.*,__mocks__",
     "build": "npm run clean && npm run build-server",
-    "prestart": "npm run build && npm run migrate",
+    "prestart": "npm run build && npm run migrate && npm run seed",
     "start": "node ./build/index.js",
     "lint": "eslint src",
     "test": "jest",
     "watch-tests": "esw src & jest --watchAll",
     "dev": "nodemon --watch ./src --ignore ./src/**/*.spec.js -x \"npm start\"",
     "coverage": "jest --coverage",
-    "migrate": "db-migrate up all"
+    "seed": "knex seed:run",
+    "migrate": "knex migrate:latest"
   },
   "dependencies": {
     "babel-cli": "^6.23.0",
@@ -26,8 +27,6 @@
     "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
-    "db-migrate": "^0.11.1",
-    "db-migrate-pg": "^0.4.0",
     "express": "^4.15.2",
     "express-session": "^1.15.6",
     "express-simple-errors": "^1.0.0",

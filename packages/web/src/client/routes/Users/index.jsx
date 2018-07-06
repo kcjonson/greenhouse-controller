@@ -4,9 +4,17 @@ import { Link } from 'react-router-dom'
 const renderUsers = (usersData = []) => {
   if (usersData.length > 0) {
     return usersData.map(userData => {
-      return (<div key={userData.id}>
-        <Link to={`/users/${userData.id}`}>{userData.firstname} {userData.lastname}</Link>
-      </div>)
+      if (userData.id && userData.username) {
+        let label;
+        if (userData.firstName) {
+          label = `${userData.firstname} ${userData.lastname}`
+        } else {
+          label = userData.username;
+        }
+        return (<div key={userData.id}>
+          <Link to={`/users/${userData.id}`}>{userData.firstname} {userData.lastname}</Link>
+        </div>)
+      }
     })
   } else {
     return <div>No users found</div>

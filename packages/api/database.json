@@ -1,8 +1,0 @@
-{
-  "development": {
-    "driver": "pg",
-    "user": "greenhouse",
-    "host": "localhost",
-    "database": "greenhouse"
-  }
-}
