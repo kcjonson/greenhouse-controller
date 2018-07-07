@@ -9,12 +9,20 @@ https://medium.com/@nickpeleh/dockerizing-a-node-js-web-app-with-redis-and-postg
 
 # Starting the servers locally
 
-start `docker-compose up`
+start `docker-compose up --build`
 
 rebuild a particular container  `docker-compose build --no-cache CONTAINER`
 note: this won't install new npm dependencies
 
 recreate all containers and start `docker-compose up --force-recreate`
+
+
+# Connecting to a started server
+
+Its useful to connect to already running servers to run migrations that may have failed or manually install new node deps
+
+1) Run `docker ps` to check the names of things
+2) Run `docker exec -it greenhouse-controller_api_1 /bin/bash` (insert correct controller)
 
 
 

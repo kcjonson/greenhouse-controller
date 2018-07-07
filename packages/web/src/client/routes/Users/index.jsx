@@ -12,7 +12,7 @@ const renderUsers = (usersData = []) => {
           label = userData.username;
         }
         return (<div key={userData.id}>
-          <Link to={`/users/${userData.id}`}>{userData.firstname} {userData.lastname}</Link>
+          <Link to={`/users/${userData.id}`}>{label}</Link>
         </div>)
       }
     })

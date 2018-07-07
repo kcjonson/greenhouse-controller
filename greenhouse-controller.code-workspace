@@ -4,5 +4,14 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"material-icon-theme.folders.associations": {
+        "redfin.npm": "node",
+        "chat": "",
+        "core-ui": "components",
+        "customer-ui": "components",
+        "internal-ui": "components",
+        "stores": "components"
+    },
+	}
 }

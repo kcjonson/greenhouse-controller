@@ -1,4 +1,11 @@
 version: '3.1'
+volumes:
+  shared:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${PWD}/shared"
 services:
   api:
     build: ./packages/api
@@ -6,7 +13,7 @@ services:
     restart: always
     volumes:
       - ./packages/api:/usr/packages/api
-      - ./shared:/usr/packages/api/src/shared
+      - shared:/usr/packages/api/src/shared
       - /usr/packages/api/node_modules
     depends_on:
       - postgres
@@ -23,7 +30,7 @@ services:
     restart: always
     volumes:
       - ./packages/web:/usr/packages/web
-      - ./shared:/usr/packages/web/src/shared
+      - shared:/usr/packages/web/src/shared
       - /usr/packages/web/node_modules
     depends_on:
       - redis
@@ -33,7 +40,7 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
   postgres:
-    image: postgres:latest
+    image: postgres:alpine
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
