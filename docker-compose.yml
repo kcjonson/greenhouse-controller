@@ -6,10 +6,11 @@ volumes:
       type: none
       o: bind
       device: "${PWD}/shared"
+  postgres-data:
 services:
   api:
     build: ./packages/api
-    command: npm run dev
+    command: npm run start
     restart: always
     volumes:
       - ./packages/api:/usr/packages/api
@@ -20,13 +21,13 @@ services:
       - redis
     environment:
       PORT: 3001
-      NODE_ENV: ${NODE_ENV}
+      NODE_ENV: 'production'
       DATABASE_URL: postgres://${POSTGRES_USER}@postgres/${POSTGRES_DB}
       REDIS_HOST: redis
       REDIS_PORT: 6379
   web:
     build: ./packages/web
-    command: npm run dev
+    command: npm run start
     restart: always
     volumes:
       - ./packages/web:/usr/packages/web
@@ -36,12 +37,14 @@ services:
       - redis
     environment:
       PORT: 3000
-      NODE_ENV: ${NODE_ENV}
+      NODE_ENV: 'production'
       REDIS_HOST: redis
       REDIS_PORT: 6379
   postgres:
     image: postgres:alpine
     restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}

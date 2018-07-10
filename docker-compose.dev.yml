@@ -1,0 +1,9 @@
+services:
+  api:
+    command: npm run dev
+    environment:
+      NODE_ENV: 'development'
+  web:
+    command: npm run dev
+    environment:
+      NODE_ENV: 'development'
