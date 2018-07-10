@@ -14,7 +14,6 @@ app.get('/login', (req, res) => {
   sendIndex(res);
 });
 
-
 app.get('/logout', (req, res) => {
   if (req.session) {
     console.debug('logging out')

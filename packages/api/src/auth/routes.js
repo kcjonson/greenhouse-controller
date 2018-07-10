@@ -29,7 +29,7 @@ export default function ()  {
     req.session.authorized = true;
 
     console.log(req.session)
-    res.json(transformResponse(user));
+    res.json(user);
   });
 
   router.route('/logout').post(async (req, res) => {
