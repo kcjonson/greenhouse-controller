@@ -10,5 +10,3 @@ services:
     restart: "no"
     environment:
       NODE_ENV: 'production'
-  postgres:
-    ports:
