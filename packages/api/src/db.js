@@ -7,8 +7,8 @@ const pool = new Pool({
 });
 
 async function query(qs) {
-  const client = await pool.connect()
-  const results = await client.query(qs)
+  const client = await pool.connect();
+  const results = await client.query(qs);
   client.release();
   return results.rows;
 }

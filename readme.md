@@ -1,10 +1,6 @@
 
 
 
-https://blog.codeship.com/using-docker-compose-for-nodejs-development/
-
-https://medium.com/@nickpeleh/dockerizing-a-node-js-web-app-with-redis-and-postgresql-60ddc697b44
-
 
 
 # Starting the servers locally
@@ -78,7 +74,22 @@ nuke from orbit: `docker system prune -a`
 
 # nginx info
 
-## host not found in upstream
+## Config Errors
+
+### host not found in upstream
 
 Solution: set fail_timeout=5s max_fails=5 to allow server to come up
 https://stackoverflow.com/questions/33639138/docker-networking-nginx-emerg-host-not-found-in-upstream
+
+
+
+
+# Resources
+
+https://blog.codeship.com/using-docker-compose-for-nodejs-development/
+
+https://medium.com/@nickpeleh/dockerizing-a-node-js-web-app-with-redis-and-postgresql-60ddc697b44
+
+https://codeforgeek.com/2015/07/using-redis-to-handle-session-in-node-js/
+
+https://www.codementor.io/mayowa.a/how-to-build-a-simple-session-based-authentication-system-with-nodejs-from-scratch-6vn67mcy3
