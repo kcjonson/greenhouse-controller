@@ -1,9 +1,12 @@
+version: '3.1'
 services:
   api:
     command: npm run test
+    restart: "no"
     environment:
       NODE_ENV: 'production'
   web:
     command: npm run test
+    restart: "no"
     environment:
       NODE_ENV: 'production'

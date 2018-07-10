@@ -1,6 +1,5 @@
 import express from 'express';
 import { validate } from 'isvalid';
-import { errors } from 'express-simple-errors';
 import { sessionChecker } from '../session';
 import  { schema, transformResponse, hashPassword } from './model';
 import db from '../db';
@@ -11,28 +10,33 @@ export default function() {
 
   router.route('/')
     .all(sessionChecker)
-    .get(getAllUsers, returnResponse)
-    .post(validate.body(schema), createUser, returnResponse)
-    .delete(clearUsers, returnResponse);
+    .get(getAllUsers)
+    .delete(deleteAllUsers)
+    .post(validate.body(schema), createUser)
 
   router.route('/:id')
     .all(sessionChecker)
-    .all(getOneUser)
-    .get(returnResponse)
-    .patch(patchUser, returnResponse)
-    .delete(deleteUser, returnResponse);
+    .get(getOneUser)
+    .patch(patchUser)
+    .delete(deleteUser);
 
   async function getAllUsers(req, res, next) {
-    res.locals.users = await db.all(userTable)
-      .catch((err) => next(err));
+    const users = await db.all(userTable);
+    res.status(200)
+    res.json(transformResponse(users));
     next();
   }
 
-  async function clearUsers(req, res, next) {
+  async function deleteAllUsers(req, res, next) {
     const rows = await db.clear(userTable)
-      .catch((err) => next(err));
-    res.locals.users = rows;
+      .catch((err) => {
+        res.status(500)
+        res.json({
+          error: 'A server error occured, unable to delete user'
+        })
+      });
     res.status(204);
+    res.send()
     next();
   }
 
@@ -40,54 +44,62 @@ export default function() {
     const newUser = req.body;
     newUser.password = hashPassword(req.body.password)
     const user = await db.create(userTable, newUser)
-      .catch((err) => next(err));
     if (user && user[0]) {
-      res.locals.user = user[0];
       res.status(201);
-      next();
+      res.send(user[0])
     } else {
-      next(new Error('Unable to create user'))
+      res.status(500);
+      res.json({
+        error: 'A server error occured, unable to create user'
+      });
     }
+    next();
   }
 
   async function getOneUser(req, res, next) {
     const user = await db.getById('users', req.params.id)
-      .catch((err) => next(err));
-    res.locals.user = user && user[0];
-    if (!res.locals.user) {
-      return next(new errors.NotFound('This user does not exist'));
+    if (user && user[0]) {
+      res.status(200);
+      res.send(user[0])
+    } else {
+      res.status(500);
+      res.json({
+        error: 'A server error occured, unable to get user'
+      });
     }
     next();
   }
 
   async function patchUser(req, res, next) {
-    let user;
-    if (res.locals.user) {
-      user = Object.assign({}, res.locals.user[0], req.body);
-    } else {
-      next();
-    }
-    if (req.body && req.body.password) {
+    const user = req.body;
+    if (user && user.password) {
       user.password = hashPassword(req.body.password)
     }
-    const updatedUser = await db.update(userTable, req.params.id, user)
-      .catch((err) => next(err));
-    res.locals.user = updatedUser[0];
+    await db.update(userTable, req.params.id, user)
+      .catch((err) => {
+        res.status(500)
+        res.json({
+          error: 'A server error occured, unable to update user'
+        })
+      });
+    res.status(204);
+    res.send();
     next();
   }
 
   async function deleteUser(req, res, next) {
-    res.locals.user = await db.deleteById(userTable, req.params.id)
-      .catch((err) => next(err));
+    await db.deleteById(userTable, req.params.id)
+      .catch((err) => {
+        res.status(500)
+        res.json({
+          error: 'A server error occured, unable to delete user'
+        })
+      });
     res.status(204);
+    res.send();
     next();
   }
 
-  function returnResponse(req, res) {
-    // handle no responses here
-    res.locals.baseUrl = `${req.protocol}://${req.get('host')}`;
-    res.json(transformResponse(res.locals));
-  }
 
   return router;
 }

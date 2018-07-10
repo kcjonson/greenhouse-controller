@@ -3,7 +3,7 @@ const expressSession = require('express-session');
 
 // middleware function to check for logged-in users
 session.sessionChecker = function(req, res, next) {
-    console.log('session.js/__mocks_/sessionChecker');
+    //console.log('session.js/__mocks_/sessionChecker');
     next();   
 };
 
@@ -13,7 +13,7 @@ session.setupSession = function(app) {
         saveUninitialized: true,
         resave: false,
         name: "session",
-      }));
+    }));
 }
 
 

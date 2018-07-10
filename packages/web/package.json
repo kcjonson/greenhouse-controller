@@ -13,7 +13,7 @@
     "watch-server-src": "npm run build-server -- --watch",
     "watch-server-build": "nodemon --watch build/server build/server/index.js",
     "clean": "rm -rf build",
-    "test": "node scripts/test.js"
+    "test": "npm run start"
   },
   "dependencies": {
     "connect-redis": "^3.3.3",

@@ -1,21 +1,15 @@
-import pg from 'pg';
+import { Pool } from 'pg';
+const conString = process.env.DATABASE_URL || 'postgresql://greenhouse@localhost:5432/greenhouse';
 
-var conString = process.env.DATABASE_URL;
+const pool = new Pool({
+  connectionString: conString
+});
 
-function query(qs) {
-  return new Promise((resolve, reject) => (
-    pg.connect(conString, (err, client, done) => {
-      if (err) return reject(new Error(err));
-      client.query(qs, (err, result) => {
-        if (err) {
-          done();
-          return reject(new Error(err));
-        }
-        done();
-        resolve(result.rows);
-      });
-    })
-  ));
+async function query(qs) {
+  const client = await pool.connect()
+  const results = await client.query(qs)
+  client.release();
+  return results.rows;
 }
 
 function normalizeValue(value) {
@@ -25,8 +19,8 @@ function normalizeValue(value) {
   return value;
 }
 
-function all(table) {
-  return query(`SELECT * FROM ${table}`);
+async function all(table) {
+  return await query(`SELECT * FROM ${table}`);
 }
 
 function clear(table) {

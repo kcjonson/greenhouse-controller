@@ -1,7 +1,7 @@
 module.exports = {
   development: {
     client: 'pg',
-    connection:'postgres://greenhouse@postgres/greenhouse',
+    connection:'postgres://greenhouse@localhost/greenhouse',
     migrations: {
       directory: './db/migrations'
     },

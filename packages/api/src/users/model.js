@@ -33,6 +33,14 @@ export const schema = {
       required: 'Password is required.'
     }
   },
+  email: {
+    type: String,
+    required: true,
+    errors: {
+      type: 'Email name must be a string.',
+      required: 'Email is required.'
+    }
+  },
 };
 
 function cleanUpUserObject(user) {
@@ -46,6 +54,7 @@ function cleanUpUserObject(user) {
 }
 
 export function hashPassword(password) {
+  return password;
   return bcrypt.hashSync(password, 10);
 } 
 

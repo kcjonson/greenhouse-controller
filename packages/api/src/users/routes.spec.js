@@ -7,161 +7,127 @@ const user = {
   username: 'TEST_USER',
   firstname: 'Kevin',
   lastname: 'Jonson',
-  password: 'password'
+  password: 'password',
+  email: 'kcjonson@gmail.com'
 };
 
+
+
 describe('User-Backend API', () => {
-  describe( 'the pre-requisites', () => {
-    it( 'the api root responds to a GET (i.e. the server is up and accessible, CORS headers are set up)', (done) => {
-      request(app)
+  
+  describe( 'the root url (/users) is functional ', () => {
+    
+    it( 'the api root responds to a GET (i.e. the server is up and accessible, CORS headers are set up)', () => {
+      return request(app)
         .get('/users')
         .expect(200)
-        .end((err) => {
-          expect(err).toBeNull();
-          done();
-        });
     });
-    it( 'the api root responds to a POST with the user which was posted to it', (done) => {
-      request(app)
-        .post('/users')
-        .send(user)
-        .expect(201)
-        .end((err, res) => {
-          expect(err).toBeNull();
-          expect(res.body).toHaveProperty('firstname', 'Kevin');
-          done();
-        });
-    });
-    it( 'the api root responds successfully to a DELETE', (done) => {
-      request(app)
+
+    it( 'the api root responds successfully to a DELETE', () => {
+      return request(app)
         .delete('/users')
         .expect(204)
-        .end((err) => {
-          expect(err).toBeNull();
-          done();
-        });
     });
-    it( 'after a DELETE the api root responds to a GET with a JSON representation of an empty array', (done) => {
-      request(app)
+
+    it( 'after a DELETE the api root responds to a GET with a JSON representation of an empty array', () => {
+      return request(app)
         .get('/users')
         .expect(200)
-        .end((err, res) => {
-          expect(res.body).toEqual([]);
-          done();
-        });
+        .expect(res => {
+          expect(res.body).toHaveLength(0);
+        })
     });
+
+    it( 'the api root responds to a POST with the user which was posted to it', () => {
+      return request(app)
+        .post('/users')
+        .send(user)
+        .expect(201)
+        .expect(res => {
+          expect(res.body).toMatchObject(user);
+        })
+    });
+
+    it( 'the api returns users that have been POSTed', () => {
+      return request(app)
+        .get('/users')
+        .expect(200)
+        .expect(res => {
+          expect(res.body).toHaveLength(1);
+          expect(res.body[0]).toMatchObject(user);
+        })
+    });
+
   });
 
-  describe( 'storing new users by posting to the root url', () => {
 
-    beforeEach((done) => {
-      request(app)
+
+  describe( 'The user url (/users/ID) is functional', () => {
+
+    beforeEach(() => {
+      return request(app)
         .delete('/users')
-        .end((err) => {
-          expect(err).toBeNull();
-          done();
-        });
+        .expect(204)
     });
 
-    it('adds a new user to the list of users at the root url', (done) => {
-      request(app)
-        .post('/users')
-        .send(user)
-        .expect(201)
-        .end((err, res) => {
-          expect(err).toBeNull();
-          expect(res.body).toHaveProperty('firstname', 'Kevin');
-          done();
-        });
-    });
-    it('each new user has a url, and you can navigate to it', (done) => {
+    it('each new user has a url, and you can navigate to it', () => {
       let currentUser;
-      const client = request(app);
-      client
+      return request(app)
         .post('/users')
         .send(user)
         .expect(201)
-        .end((err, res) => {
-          expect(err).toBeNull();
-          expect(res.body).toHaveProperty('id');
-          expect(typeof res.body.id).toEqual('number');
+        .then(res => {
           currentUser = res.body;
-          client
+          return request(app)
             .get(`/users/${currentUser.id}`)
-            .end((err, res) => {
-              expect(err).toBeNull();
-              expect(res.body.id).toEqual(currentUser.id);
-              done();
-            });
-        });
+            .expect(200)
+            .expect(res =>  {
+              expect(res.body).toMatchObject(currentUser);
+            })
+        })
     });
-  });
 
-  describe( 'working with an existing user', () => {
-    it('can change the users name by PATCHing to the users url', (done) => {
-      let currentUser;
-      const client = request(app);
-      client
+    it('can change the users name by PATCHing to the users url', () => {
+      let currentUser, update;
+      return request(app)
         .post('/users')
         .send(user)
         .expect(201)
-        .end((err, res) => {
-          expect(err).toBeNull();
+        .then(res => {
           currentUser = res.body;
-          client
+          update = {firstname: 'Margaret'}
+          return request(app)
             .patch(`/users/${currentUser.id}`)
-            .send({'firstname': 'Kev'})
-            .end((err, res) => {
-              expect(err).toBeNull();
-              expect(res.body.firstname).toEqual('Kev');
-              done();
-            });
-        });
-    });
-    it('changes to a user are persisted and show up when re-fetching the user', (done) => {
-      let currentUser;
-      const client = request(app);
-      client
-        .post('/users')
-        .send(user)
-        .expect(201)
-        .end((err, res) => {
-          expect(err).toBeNull();
-          currentUser = res.body;
-          client
-            .patch(`/users/${currentUser.id}`)
-            .send({'firstname': 'Kev', 'lastname': 'Jo'})
-            .end((err) => {
-              expect(err).toBeNull();
-              client
+            .send(update)
+            .expect(204)
+            .then(() => {
+              return request(app)
                 .get(`/users/${currentUser.id}`)
-                .end((err,res) => {
-                  expect(err).toBeNull();
-                  expect(res.body.firstname).toEqual('Kev');
-                  expect(res.body.lastname).toEqual('Jo');
-                  done();
-                });
-            });
-        });
+                .expect(200)
+                .expect(res =>  {
+                  expect(res.body).toMatchObject({
+                    ...user,
+                    ...update
+                  });
+                })
+            
+          })
+        })
     });
-    it('can delete a user making a DELETE request to the users url', (done) => {
+
+    it('can delete a user making a DELETE request to the users url', () => {
       let currentUser;
-      const client = request(app);
-      client
+      return request(app)
         .post('/users')
         .send(user)
         .expect(201)
-        .end((err, res) => {
-          expect(err).toBeNull();
+        .then(res => {
           currentUser = res.body;
-          client
+          return request(app)
             .delete(`/users/${currentUser.id}`)
             .expect(204)
-            .end((err) => {
-              expect(err).toBeNull();
-              done();
-            });
-        });
+        })
     });
   });
+
 });

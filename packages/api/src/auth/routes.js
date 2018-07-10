@@ -1,9 +1,7 @@
-/* eslint-disable */
-
 import express from 'express';
 import { errors } from 'express-simple-errors';
 import bcrypt from 'bcryptjs';
-//import transformResponse, { schema } from './model'; // eslint-disable-line no-unused-variables
+import transformResponse from '../users/model';
 import db from '../db';
 const userTable = 'users';
 
@@ -14,7 +12,6 @@ export default function ()  {
   const router = express.Router();
 
   router.route('/login').post(async (req, res, next) => {
-    console.log('logging in')
     const username = req.body.username;
     const password = req.body.password;
     let user = await db.query(`SELECT * FROM ${userTable} WHERE username = '${username}'`, req.params.id)
@@ -32,7 +29,7 @@ export default function ()  {
     req.session.authorized = true;
 
     console.log(req.session)
-    res.json(user);
+    res.json(transformResponse(user));
   });
 
   router.route('/logout').post(async (req, res) => {

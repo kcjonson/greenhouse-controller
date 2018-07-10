@@ -4,7 +4,7 @@ import connectRedis from 'connect-redis';
 
 // middleware function to check for logged-in users
 export function sessionChecker(req, res, next) {
-    console.log('session.js/sessionChecker', req.session);
+    //console.log('session.js/sessionChecker', req.session);
     if (req.session && req.session.authorized === true) {
         next();
     } else {
@@ -13,7 +13,7 @@ export function sessionChecker(req, res, next) {
 };
 
 export function setupSession(app) {
-    console.log('setting up session')
+    // console.log('setting up session')
 
     // Set up session
     var redisHost = process.env.REDIS_HOST || '127.0.0.1';
