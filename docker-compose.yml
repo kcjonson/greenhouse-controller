@@ -22,7 +22,7 @@ services:
     environment:
       PORT: 3001
       NODE_ENV: 'production'
-      DATABASE_URL: postgres://${POSTGRES_USER}@postgres/${POSTGRES_DB}
+      DATABASE_URL: postgres://${POSTGRES_USER:-greenhouse}@postgres/${POSTGRES_DB:-greenhouse}
       REDIS_HOST: redis
       REDIS_PORT: 6379
   web:
@@ -46,8 +46,8 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:-greenhouse}
+      POSTGRES_DB: ${POSTGRES_DB:-greenhouse}
   redis:
     image: redis
     restart: always
@@ -55,7 +55,7 @@ services:
     image: nginx:alpine
     restart: always
     ports:
-    - "${PROXY_PORT}:8090"
+    - "${PROXY_PORT:-8090}:8090"
     volumes:
       - ./site.conf:/etc/nginx/conf.d/site.conf
     depends_on:
