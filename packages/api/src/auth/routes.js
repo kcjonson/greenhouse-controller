@@ -1,7 +1,7 @@
 import express from 'express';
 import { errors } from 'express-simple-errors';
 import bcrypt from 'bcryptjs';
-import transformResponse from '../users/model';
+import { transformResponse } from '../users/model';
 import db from '../db';
 const userTable = 'users';
 

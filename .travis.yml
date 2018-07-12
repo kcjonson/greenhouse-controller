@@ -10,3 +10,7 @@ sudo: required
 services:
   - docker
 
+addons:
+  ssh_known_hosts: ${DEPLOY_HOST}
+
+# Travis will automatically run `npm run test` in the root directory
