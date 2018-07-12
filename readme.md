@@ -3,6 +3,8 @@
 
 
 
+
+
 # Starting the servers locally
 
 start `docker-compose up --build`
