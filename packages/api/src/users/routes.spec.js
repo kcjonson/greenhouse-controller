@@ -12,7 +12,6 @@ const user = {
 };
 
 
-
 describe('User-Backend API', () => {
   
   describe( 'the root url (/users) is functional ', () => {
