@@ -1,6 +1,4 @@
 source .env
 
-echo $DEPLOY_USER
-echo $DEPLOY_PASSWORD
-echo $DEPLOY_HOST
+rsync -r --delete-after --quiet --filter=':- .gitignore' . ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_LOCATION}
 
