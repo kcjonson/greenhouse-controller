@@ -34,6 +34,7 @@ describe('User-Backend API', () => {
         .expect(200)
         .expect(res => {
           expect(res.body).toHaveLength(0);
+          expect(true).toBe(false);
         })
     });
 
