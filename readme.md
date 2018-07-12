@@ -1,9 +1,7 @@
 
 
 
-
-
-# Starting the servers locally
+## Starting the servers locally
 
 start `docker-compose up --build`
 
@@ -13,7 +11,7 @@ note: this won't install new npm dependencies
 recreate all containers and start `docker-compose up --force-recreate`
 
 
-# Connecting to a started server
+## Connecting to a started server
 
 Its useful to connect to already running servers to run migrations that may have failed or manually install new node deps
 
@@ -22,7 +20,7 @@ Its useful to connect to already running servers to run migrations that may have
 
 
 
-# Expected Behavior of node_modules
+## Expected Behavior of node_modules
 
 * You should not have to have done a `yarn install` on your local checkout in order to run `docker-compose up`
 * If you have done a local `yarn install` the installed modules will not be copied to the containers
@@ -31,7 +29,7 @@ Its useful to connect to already running servers to run migrations that may have
 
 
 
-# Running Tests
+## Running Tests
 
 Instead of just running `up` using `run` allows up to specify a command to the api server
 
@@ -44,7 +42,7 @@ Instead of just running `up` using `run` allows up to specify a command to the a
 
 
 
-# Connecting to the DB
+## Connecting to the DB
 
 `psql -h 127.0.0.1 -p 5433 -U greenhouse`
 
@@ -53,7 +51,7 @@ display tables `\dt`
 
 
 
-# Docker Cleanup
+## Docker Cleanup
 
 
 kill all running containers with `docker kill $(docker ps -q)`
@@ -72,11 +70,11 @@ nuke from orbit: `docker system prune -a`
 
 
 
-# nginx info
+## nginx info
 
-## Config Errors
+### Config Errors
 
-### host not found in upstream
+#### host not found in upstream
 
 Solution: set fail_timeout=5s max_fails=5 to allow server to come up
 https://stackoverflow.com/questions/33639138/docker-networking-nginx-emerg-host-not-found-in-upstream
@@ -84,7 +82,7 @@ https://stackoverflow.com/questions/33639138/docker-networking-nginx-emerg-host-
 
 
 
-# Resources
+## Resources
 
 https://blog.codeship.com/using-docker-compose-for-nodejs-development/
 
