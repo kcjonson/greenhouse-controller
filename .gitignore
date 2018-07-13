@@ -4,6 +4,7 @@ node_modules
 .env
 deploy_rsa
 deploy_rsa.pub
+package-lock.json
 
 # testing
 coverage
