@@ -7,6 +7,9 @@ services:
 branches:
   only: 
     - master
+stages:
+  - name: test
+    if: branch != master
 addons:
   ssh_known_hosts: ${DEPLOY_HOST}
 before_install:
