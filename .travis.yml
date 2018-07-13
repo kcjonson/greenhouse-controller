@@ -4,6 +4,9 @@ node_js:
 sudo: required
 services:
 - docker
+branches:
+  only: 
+    - master
 addons:
   ssh_known_hosts: ${DEPLOY_HOST}
 before_install:
