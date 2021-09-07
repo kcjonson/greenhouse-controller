@@ -1,4 +1,4 @@
-FROM node:carbon
+FROM node:buster
 
 # Create app directory
 WORKDIR /usr/packages/api
@@ -6,9 +6,8 @@ WORKDIR /usr/packages/api
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
-COPY yarn.lock ./
 
-RUN yarn install --quiet
+RUN npm install
 # If you are building your code for production
 # RUN npm install --only=production
 

@@ -1,11 +1,10 @@
-FROM node:carbon
+FROM node:buster
 
 WORKDIR /usr/packages/web
 
 COPY package*.json ./
-COPY yarn.lock ./
 
-RUN yarn install --quiet
+RUN npm install
 
 COPY . .
 

@@ -1,4 +1,4 @@
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
   return Promise.all([
     knex.raw('CREATE EXTENSION IF NOT EXISTS citext'),
     knex.raw(`CREATE TABLE IF NOT EXISTS users(

@@ -41,13 +41,13 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
   postgres:
-    image: postgres:alpine
+    image: postgres
     restart: always
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-greenhouse}
       POSTGRES_DB: ${POSTGRES_DB:-greenhouse}
+      POSTGRES_USER: ${POSTGRES_USER:-greenhouse}
   redis:
     image: redis
     restart: always

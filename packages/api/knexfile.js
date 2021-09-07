@@ -1,7 +1,7 @@
 module.exports = {
   development: {
     client: 'pg',
-    connection: process.env.DATABASE_URL || 'postgres://greenhouse@localhost/greenhouse',
+    connection: 'postgres://greenhouse:password@postgres/greenhouse',
     migrations: {
       directory: './db/migrations'
     },
@@ -13,7 +13,7 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection: process.env.DATABASE_URL || 'postgres://greenhouse@postgres/greenhouse',
+    connection: 'postgres://greenhouse@postgres/greenhouse',
     migrations: {
       directory: './db/migrations'
     },
@@ -25,7 +25,7 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL || 'postgres://greenhouse@postgres/greenhouse',
+    connection: 'postgres://greenhouse@postgres/greenhouse',
     migrations: {
       directory: './db/migrations'
     },

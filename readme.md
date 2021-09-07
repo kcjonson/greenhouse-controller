@@ -2,6 +2,11 @@
 Home Controller
 ===============
 
+## Setup
+
+(optional) Install Posgres: `brew install postgresql`  - Needed for psql CLI to work with DB locally
+
+
 ## Starting the servers locally
 
 start `docker-compose up --build`
@@ -23,10 +28,10 @@ Its useful to connect to already running servers to run migrations that may have
 
 ## Expected Behavior of node_modules
 
-* You should not have to have done a `yarn install` on your local checkout in order to run `docker-compose up`
-* If you have done a local `yarn install` the installed modules will not be copied to the containers
+* You should not have to have done a `npm install` on your local checkout in order to run `docker-compose up`
+* If you have done a local `npm install` the installed modules will not be copied to the containers
 * The `node_modules` folder in containers should be cached from build to build
-* We have to manually copy the shared dependency(s) into containers since they run in isolation, hoisting will not work, and they're not valid packages for a `yarn install`
+* We have to manually copy the shared dependency(s) into containers since they run in isolation, hoisting will not work, and they're not valid packages for a `npm install`
 
 
 
@@ -45,7 +50,7 @@ Instead of just running `up` using `run` allows up to specify a command to the a
 
 ## Connecting to the DB
 
-`psql -h 127.0.0.1 -p 5433 -U greenhouse`
+`psql -h 127.0.0.1 -p 5432 -U greenhouse`
 
 display tables `\dt`
 
