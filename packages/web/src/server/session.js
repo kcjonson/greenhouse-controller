@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import session from 'express-session';
 import { createClient as createRedisClient } from 'redis';
 import connectRedis from 'connect-redis';
