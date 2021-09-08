@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../shared/Header';
 
 import { navigate } from '../../util/nav';
@@ -15,7 +15,7 @@ const renderUsers = (usersData = []) => {
 					label = userData.username;
 				}
 				return (<div key={userData.id}>
-					<a href={`/users/${userData.id}`} onClick={navigate}>{label}</a>
+					<a href={`/admin/users/${userData.id}`} onClick={navigate}>{label}</a>
 				</div>);
 			}
 		});
@@ -24,32 +24,32 @@ const renderUsers = (usersData = []) => {
 	}
 };
 
-export default class Users extends Component {
-  
-	state = {
-		users: [],
-		loading: true,
-	}
+export default function Users() {
 
-	componentDidMount() {
+	const [ state, setState ] = useState({
+		users: null,
+		loading: true,
+	});
+
+	useEffect(() => {
 		fetch('/api/users', {
 			credentials: 'same-origin',
 		}).then(response => response.json())
 			.catch(error => console.error('Error:', error))
 			.then(usersData => {
-				this.setState({
+				setState({
 					users: usersData,
 					loading: false,
 				});
-			});
-	}
 
-	render() {
-		return (<div className='Users'>
-			<Header />
-			<h2>Users</h2>
-			{this.state.loading ? null : renderUsers(this.state.users)}
-			<a href={'/users/new'} onClick={navigate}>Create New</a>
-		</div>);
-	}
+			});
+	}, []);
+
+	return (<div className='Users'>
+		<Header />
+		<h2>Users</h2>
+		{state.loading ? null : renderUsers(state.users)}
+		<a href={'/admin/users/new'} onClick={navigate}>Create New</a>
+	</div>);
+
 };

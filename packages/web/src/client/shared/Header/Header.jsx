@@ -10,6 +10,7 @@ export default function Header({ className }) {
 			<ol className='menu'>
 				<li>Profile</li>
 				<li>Settings</li>
+				<li><a href='/admin'>Admin</a></li>
 				<li><a href='/logout' onClick={navigate}>Logout</a></li>
 			</ol>
 		</div>

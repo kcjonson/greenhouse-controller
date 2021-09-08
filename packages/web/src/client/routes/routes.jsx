@@ -2,6 +2,7 @@ import { match } from 'path-to-regexp';
 
 import Home from './Home';
 import Login from './Login';
+import Admin from './Admin';
 import Users from './Users';
 import User from './User';
 
@@ -15,11 +16,15 @@ const routes = [
 		component: Login,
 	},
 	{
-		path: '/users',
+		path: '/admin',
+		component: Admin,
+	},
+	{
+		path: '/admin/users',
 		component: Users,
 	},
 	{
-		path: '/users/:userId',
+		path: '/admin/users/:userId',
 		component: User,
 	},
 ];
