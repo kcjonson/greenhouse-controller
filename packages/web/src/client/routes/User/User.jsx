@@ -1,25 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Header from '../../shared/Header';
+import { useData } from '../../util/data';
 
-export default class User extends Component {
+export default function User({ routeParams }) {
 
-	state = {
-		user: {
-			username: '',
-			firstname: '',
-			lastname: '',
-			password: '',
-		},
-		status: this.props.routeParams.userId === 'new' ? 'NEW' : 'LOADING', // NEW, LOADING, SAVING, DONE
-	}
+	const [ user ] = useData([
+		{ model: 'User', params: { id: routeParams.userId }},
+	], [ routeParams ]);
 
-	componentDidMount() {
-		if (this.state.status === 'LOADING') {
-			this.get();
-		}
-	}
+	console.log('user', user);
 
-	get() {
+	// state = {
+	// 	user: {
+	// 		username: '',
+	// 		firstname: '',
+	// 		lastname: '',
+	// 		password: '',
+	// 	},
+	// 	status: this.props.routeParams.userId === 'new' ? 'NEW' : 'LOADING', // NEW, LOADING, SAVING, DONE
+	// }
+
+	// componentDidMount() {
+	// 	if (this.state.status === 'LOADING') {
+	// 		this.get();
+	// 	}
+	// }
+
+	function get() {
 		fetch(`/api/users/${this.props.routeParams.userId}`, {
 			credentials: 'same-origin',     
 		}).then(response => response.json())
@@ -32,7 +39,7 @@ export default class User extends Component {
 			});
 	}
 
-	post() {
+	function post() {
 		this.setState({
 			status: 'SAVING',
 		});
@@ -57,46 +64,47 @@ export default class User extends Component {
 			});
 	}
 
-	delete() {
-		this.setState({
-			status: 'SAVING',
-		});
-		fetch(`/api/users/${this.state.user.id}`, {
-			credentials: 'same-origin',
-			method: 'DELETE',
-			body: JSON.stringify(this.state.user),
-		}).catch(error => console.error('Error:', error))
-			.then(() => {
-				this.setState({
-					status: 'DONE',
-				});
-				this.props.history.push('/users');
-			});
-	}
+	// function delete() {
+	// 	this.setState({
+	// 		status: 'SAVING',
+	// 	});
+	// 	fetch(`/api/users/${this.state.user.id}`, {
+	// 		credentials: 'same-origin',
+	// 		method: 'DELETE',
+	// 		body: JSON.stringify(this.state.user),
+	// 	}).catch(error => console.error('Error:', error))
+	// 		.then(() => {
+	// 			this.setState({
+	// 				status: 'DONE',
+	// 			});
+	// 			this.props.history.push('/users');
+	// 		});
+	// }
 
-	onInput = (e) => {
-		this.setState({
-			user: {
-				...this.state.user,
-				[e.target.name]: e.target.value,
-			},
-		});
-	}
+	// const onInput = (e) => {
+	// 	this.setState({
+	// 		user: {
+	// 			...this.state.user,
+	// 			[e.target.name]: e.target.value,
+	// 		},
+	// 	});
+	// }
 
-	onSubmit = (e) => {
-		e.preventDefault();
-		if (this.state.status === 'NEW') {
-			this.post();
-		}
-	}
+	// const onSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	if (this.state.status === 'NEW') {
+	// 		this.post();
+	// 	}
+	// }
 
-	onDelete = () => {
-		if (this.state.user.id) {
-			this.delete();
-		}
-	}
+	// const onDelete = () => {
+	// 	if (this.state.user.id) {
+	// 		this.delete();
+	// 	}
+	// }
 
-	renderUser() {
+
+	function renderUser() {
 		return (<form onSubmit={this.onSubmit}>
 			<input type='text' value={this.state.user.username} name='username' autoComplete='off' onChange={this.onInput}/>
 			<input type='text' value={this.state.user.firstname} name='firstname' autoComplete='off' onChange={this.onInput} />
@@ -107,11 +115,11 @@ export default class User extends Component {
 		</form>);
 	}
 
-	render() {
-		return (<div className='User'>
-			<Header />
-			<h2>User {this.props.routeParams.userId}</h2>
-			{this.state.status !== 'LOADING' ? this.renderUser() : null}
-		</div>);
-	}
+
+	return (<div className='User'>
+		<Header />
+		<h2>User {routeParams.userId}</h2>
+		{/* {this.state.status !== 'LOADING' ? renderUser() : null} */}
+	</div>);
+
 };

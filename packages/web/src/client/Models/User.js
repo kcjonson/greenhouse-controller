@@ -1,6 +1,8 @@
-import Model from './Model';
+import SyncModel from './SyncModel';
+class User extends SyncModel {
 
-export default class User extends Model {
+	static url = '/api/users/:id';
+
 	static properties = new Set([
 		'id',
 		'username',
@@ -9,3 +11,5 @@ export default class User extends Model {
 		'lastname',
 	]);
 }
+
+export default User;

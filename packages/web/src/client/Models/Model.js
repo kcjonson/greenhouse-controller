@@ -1,5 +1,11 @@
 
-
+function emit(event) {
+	if (this.__listeners[event]) {
+		this.__listeners[event].forEach(listener => {
+			listener();
+		});
+	}
+}
 
 function get(property) {
 	//console.log('model.get (single)', property);
@@ -13,23 +19,33 @@ function get(property) {
 	}
 };
 
-function set(property, value) {
+function set(property, value, doEmit = true) {
 	//console.log('model.set (single)', property, value);
 	if (typeof property !== 'string') {
 		console.error('Skipping set: Property names must be strings');
 	}
 	if (this.__proto__.constructor.properties.has(property)) {
 		this.__data[property] = value;
+		if (doEmit) {
+			emit.call(this, 'change');
+		}
 	} else {
 		console.warn(`Skipping set: property "${property}" is inavlid on "${this.constructor.name}" model`);
 	}
 };
 
 
+
 export default class Model {
 
 	constructor(initialData) {
 		Object.defineProperty(this, '__data', {
+			value: {},
+			enumerable: false,
+			writable: false,
+		});
+
+		Object.defineProperty(this, '__listeners', {
 			value: {},
 			enumerable: false,
 			writable: false,
@@ -60,15 +76,25 @@ export default class Model {
 		Object.freeze(this);
 	}
 
+	on(event, callback) {
+		if (!this.__listeners[event]) {
+			this.__listeners[event] = [];
+		}
+		// TODO: use soft references here? How do these get garbage collected?
+		this.__listeners[event].push(callback);
+	}
+
 	// Bulk setter, will handle single values as well;
 	set(newData, newValue) {
 		//console.log('model.set');
 		if (typeof newData === 'object') {
 			Object.keys(newData).forEach(property => {
-				set.call(this, property, newData[property]);
+				set.call(this, property, newData[property], false);
 			});
+			emit.call(this, 'change');
 		} else if (typeof newData === 'string') {
 			set.call(this, newData, newValue);
+			emit.call(this, 'change');
 		} else {
 			console.warn(`Unable to set properties of type: ${typeof newData} on Model`);
 		}
