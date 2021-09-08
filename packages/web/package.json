@@ -13,6 +13,7 @@
     "watch-server-src": "npm run build-server -- --watch",
     "watch-server-build": "nodemon --watch build/server build/server/index.js",
     "clean": "rm -rf build",
+	"lint": "eslint . --ext .js,.jsx,.tsx",
     "test": "npm run start"
   },
   "dependencies": {
@@ -23,7 +24,6 @@
     "path-to-regexp": "^6.2.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0",
     "redis": "^3.0.2"
   },
   "devDependencies": {

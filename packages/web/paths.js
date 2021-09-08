@@ -12,11 +12,11 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 const srcFolder = 'src';
 const buildFolder = 'build';
-const clientFolder = `client`;
+const clientFolder = 'client';
 module.exports = {
-  clientBuild: resolveApp(`${buildFolder}/${clientFolder}`),
-  clientSrc: resolveApp(`${srcFolder}/${clientFolder}`),
-  clientIndexHtml: resolveApp(`${srcFolder}/${clientFolder}/index.html`),
-  clientIndexJs: resolveApp(`${srcFolder}/${clientFolder}/index.jsx`),
-  publicPath: '/static'
-}
+	clientBuild: resolveApp(`${buildFolder}/${clientFolder}`),
+	clientSrc: resolveApp(`${srcFolder}/${clientFolder}`),
+	clientIndexHtml: resolveApp(`${srcFolder}/${clientFolder}/index.html`),
+	clientIndexJs: resolveApp(`${srcFolder}/${clientFolder}/index.jsx`),
+	publicPath: '/static',
+};

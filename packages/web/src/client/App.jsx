@@ -42,27 +42,27 @@ const getRoute = (searchRoute) => {
 			foundRoute = {
 				...route,
 				params: matchInfo.params,
-			}
+			};
 		}
-	})
+	});
 	return foundRoute;
-}
+};
 
 const App = () => {
 	const route = useNavigation();
 	const routeConfig = getRoute(route);
 
 
-	let routeComponent
+	let routeComponent;
 	if (routeConfig) {
 		routeComponent = <routeConfig.component routeParams={routeConfig.params} />;
 	} else {
-		routeComponent = (<div>Not Found</div>)
+		routeComponent = (<div>Not Found</div>);
 	}
 
 	return <div>
 		{routeComponent}
-	</div>
+	</div>;
 
 };
 

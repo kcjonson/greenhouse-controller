@@ -15,7 +15,7 @@ class Navigator extends EventEmitter {
 
 	navigate(route) {
 		this._route = route;
-		this.emit('navigate', route)
+		this.emit('navigate', route);
 	}
 }
 const navigator = new Navigator();
@@ -24,23 +24,23 @@ const navigator = new Navigator();
 export const navigate = (eventOrRoute) => {
 	let route;
 	if (typeof eventOrRoute === 'string') { 
-		console.log('TODO: String Route')
+		console.log('TODO: String Route');
 	} else if (eventOrRoute.constructor.name === 'SyntheticBaseEvent') {
 		eventOrRoute.preventDefault();
 		const attrs = eventOrRoute.target.attributes;
 		route = attrs.href?.nodeValue || null;
 	} else {
-		console.error('Unrecognized param type on navigate event')
+		console.error('Unrecognized param type on navigate event');
 	}
 	if (route) {
 		navigator.navigate(route);
 	}
-}
+};
 
 export const useNavigation = () => {
 	const [ route, setRoute ] = useState(navigator.route);
 	navigator.on('navigate', (newRoute) => {
 		setRoute(newRoute);
-	})
+	});
 	return route;
-}
+};
