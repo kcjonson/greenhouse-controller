@@ -11,7 +11,7 @@ export default class User extends Component {
       lastname: '',
       password: ''
     },
-    status: this.props.match.params.userId === 'new' ? 'NEW' : 'LOADING', // NEW, LOADING, SAVING, DONE
+    status: this.props.routeParams.userId === 'new' ? 'NEW' : 'LOADING', // NEW, LOADING, SAVING, DONE
   }
 
   componentDidMount() {
@@ -21,7 +21,7 @@ export default class User extends Component {
   }
 
   get() {
-    fetch(`/api/users/${this.props.match.params.userId}`, {
+    fetch(`/api/users/${this.props.routeParams.userId}`, {
       credentials: "same-origin",     
     }).then(response => response.json())
       .catch(error => console.error('Error:', error))
@@ -110,7 +110,7 @@ export default class User extends Component {
 
   render() {
     return (<div className="User">
-      <h2>User {this.props.match.params.userId}</h2>
+      <h2>User {this.props.routeParams.userId}</h2>
       {this.state.status !== 'LOADING' ? this.renderUser() : null}
     </div>);
   }

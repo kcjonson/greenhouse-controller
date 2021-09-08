@@ -9,7 +9,5 @@ services:
     environment:
       NODE_ENV: 'development'
   postgres:
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     ports:
       - "${POSTGRES_PORT:-5432}:5432"

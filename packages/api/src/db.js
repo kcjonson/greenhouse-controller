@@ -1,6 +1,6 @@
 import { Pool } from 'pg';
 
-const conString = process.env.DATABASE_URL || 'postgresql://greenhouse@localhost:5432/greenhouse';
+const conString = process.env.DATABASE_URL || 'postgresql://greenhouse:password@localhost:5432/greenhouse';
 
 const pool = new Pool({
   connectionString: conString

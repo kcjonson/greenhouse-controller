@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+
+import { navigate } from '../../util/nav';
+
 
 const renderUsers = (usersData = []) => {
   if (usersData.length > 0) {
@@ -12,7 +14,7 @@ const renderUsers = (usersData = []) => {
           label = userData.username;
         }
         return (<div key={userData.id}>
-          <Link to={`/users/${userData.id}`}>{label}</Link>
+          <a href={`/users/${userData.id}`} onClick={navigate}>{label}</a>
         </div>)
       }
     })
@@ -45,7 +47,7 @@ export default class Users extends Component {
     return (<div className="Users">
       <h2>Users</h2>
       {this.state.loading ? null : renderUsers(this.state.users)}
-      <Link to={`/users/new`}>Create New</Link>
+      <a href={`/users/new`} onClick={navigate}>Create New</a>
     </div>);
   }
 };
