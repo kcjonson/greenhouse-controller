@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import EventEmitter from 'events';
+import { getRoute } from '../routes';
 
 class Navigator extends EventEmitter {
 	_route;
@@ -26,20 +27,25 @@ class Navigator extends EventEmitter {
 }
 const navigator = new Navigator();
 
-// Can be attached to onClick events or called
+// Can be attached to onClick events or called directly with a route string
 export const navigate = (eventOrRoute) => {
-	let route;
+	let route, shouldRoute = false;
 	if (typeof eventOrRoute === 'string') { 
-		console.log('TODO: String Route');
+		route = eventOrRoute;
+		if (getRoute(route)) {
+			shouldRoute = true;
+		}
 	} else if (eventOrRoute.constructor.name === 'SyntheticBaseEvent') {
-		// TODO: Only block if href is in this domain
-		eventOrRoute.preventDefault();
 		const attrs = eventOrRoute.target.attributes;
 		route = attrs.href?.nodeValue || null;
+		if (getRoute(route)) {
+			shouldRoute = true;
+			eventOrRoute.preventDefault();
+		}
 	} else {
 		console.error('Unrecognized param type on navigate event');
 	}
-	if (route) {
+	if (route && shouldRoute) {
 		history.pushState({}, null, route);
 		navigator.navigate(route);
 	}

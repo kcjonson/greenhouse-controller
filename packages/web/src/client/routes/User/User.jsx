@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-
-
+import Header from '../../shared/Header';
 
 export default class User extends Component {
 
@@ -110,6 +109,7 @@ export default class User extends Component {
 
 	render() {
 		return (<div className='User'>
+			<Header />
 			<h2>User {this.props.routeParams.userId}</h2>
 			{this.state.status !== 'LOADING' ? this.renderUser() : null}
 		</div>);

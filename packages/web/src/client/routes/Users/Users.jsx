@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from '../../shared/Header';
 
 import { navigate } from '../../util/nav';
 
@@ -45,6 +46,7 @@ export default class Users extends Component {
 
 	render() {
 		return (<div className='Users'>
+			<Header />
 			<h2>Users</h2>
 			{this.state.loading ? null : renderUsers(this.state.users)}
 			<a href={'/users/new'} onClick={navigate}>Create New</a>

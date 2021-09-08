@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { navigate } from '../../util/nav';
 
 export default class Login extends Component {
 
@@ -27,19 +27,17 @@ export default class Login extends Component {
 				return response.json();
 			}
 			throw new Error('Network response was not ok.');
-		})
-			.catch(error => {
-				console.error(error);
-				this.setState({
-					error: true,
-				});
-			})
-			.then(userData => {
-				if (userData) {
-					console.log('logged in successfully');
-					this.props.history.push('/');
-				}
+		}).catch(error => {
+			console.error(error);
+			this.setState({
+				error: true,
 			});
+		}).then(userData => {
+			if (userData) {
+				console.log('logged in successfully');
+				navigate('/');
+			}
+		});
 	}
 
 	onInput = (e) => {
