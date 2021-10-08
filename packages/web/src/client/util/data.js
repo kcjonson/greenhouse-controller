@@ -7,8 +7,10 @@ const modelMap = {
 };
 
 export const useData = (config, dependencies) => {
+	console.log('useData');
 	const [ data, setData ] = useState([]);
 	useEffect(() => {
+		console.log('useData.useEffect');
 		const models = config.map(dataConfig => {
 			const Model = modelMap[dataConfig.model];
 			return new Model(dataConfig.params);

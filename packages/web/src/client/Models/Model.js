@@ -39,17 +39,28 @@ function set(property, value, doEmit = true) {
 export default class Model {
 
 	constructor(initialData) {
+
+		// Internal store for primary store data (yea, I said "store" twice, :deal_with_it:)
 		Object.defineProperty(this, '__data', {
 			value: {},
 			enumerable: false,
 			writable: false,
 		});
 
+		// Internal store for event emitter behavior
 		Object.defineProperty(this, '__listeners', {
 			value: {},
 			enumerable: false,
 			writable: false,
 		});
+
+		// Structure for store metadata, allowed public access.
+		Object.defineProperty(this, '$meta', {
+			value: {},
+			enumerable: false,
+			writable: false,
+		});
+
 		// Define getters and setters for each property in the property list
 		// Allows accessing attributes as model.property instead of just model.get('property');
 		// Allows setting attributes as model.property = value instead of just model.set('property', value)

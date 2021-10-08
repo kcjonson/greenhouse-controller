@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../../shared/Header';
 import { useData } from '../../util/data';
 
 export default function User({ routeParams }) {
 
+	console.log('User.render');
+
 	const [ user ] = useData([
 		{ model: 'User', params: { id: routeParams.userId }},
-	], [ routeParams ]);
+	], []);
 
-	console.log('user', user);
+	useEffect(() => {
+		console.log('test')
+	}, [])
+
+	console.log('User Data', user);
 
 	// state = {
 	// 	user: {
@@ -26,43 +32,43 @@ export default function User({ routeParams }) {
 	// 	}
 	// }
 
-	function get() {
-		fetch(`/api/users/${this.props.routeParams.userId}`, {
-			credentials: 'same-origin',     
-		}).then(response => response.json())
-			.catch(error => console.error('Error:', error))
-			.then(userData => {
-				this.setState({
-					user: userData,
-					status: 'DONE',
-				});
-			});
-	}
+	// function get() {
+	// 	fetch(`/api/users/${this.props.routeParams.userId}`, {
+	// 		credentials: 'same-origin',     
+	// 	}).then(response => response.json())
+	// 		.catch(error => console.error('Error:', error))
+	// 		.then(userData => {
+	// 			this.setState({
+	// 				user: userData,
+	// 				status: 'DONE',
+	// 			});
+	// 		});
+	// }
 
-	function post() {
-		this.setState({
-			status: 'SAVING',
-		});
-		fetch('/api/users', {
-			method: 'POST',
-			credentials: 'same-origin',
-			body: JSON.stringify(this.state.user),
-			headers: {
-				'content-type': 'application/json',
-			},
-		}).then(response => response.json())
-			.catch(error => console.error('Error:', error))
-			.then(userData => {
-				this.setState({
-					user: {
-						...this.state.user,
-						...userData,
-					},
-					status: 'DONE',
-				});
-				this.props.history.push(`/users/${userData.id}`);
-			});
-	}
+	// function post() {
+	// 	this.setState({
+	// 		status: 'SAVING',
+	// 	});
+	// 	fetch('/api/users', {
+	// 		method: 'POST',
+	// 		credentials: 'same-origin',
+	// 		body: JSON.stringify(this.state.user),
+	// 		headers: {
+	// 			'content-type': 'application/json',
+	// 		},
+	// 	}).then(response => response.json())
+	// 		.catch(error => console.error('Error:', error))
+	// 		.then(userData => {
+	// 			this.setState({
+	// 				user: {
+	// 					...this.state.user,
+	// 					...userData,
+	// 				},
+	// 				status: 'DONE',
+	// 			});
+	// 			this.props.history.push(`/users/${userData.id}`);
+	// 		});
+	// }
 
 	// function delete() {
 	// 	this.setState({
@@ -106,12 +112,12 @@ export default function User({ routeParams }) {
 
 	function renderUser() {
 		return (<form onSubmit={this.onSubmit}>
-			<input type='text' value={this.state.user.username} name='username' autoComplete='off' onChange={this.onInput}/>
-			<input type='text' value={this.state.user.firstname} name='firstname' autoComplete='off' onChange={this.onInput} />
-			<input type='text' value={this.state.user.lastname} name='lastname' autoComplete='off' onChange={this.onInput} />
-			<input type='password' value={this.state.user.password} name='password' autoComplete='off' onChange={this.onInput}/>
-			{this.state.status === 'NEW' && <button>Save</button>}
-			{this.state.status === 'DONE' && <button onClick={this.onDelete}>delete</button>}
+			<input type='text' value={user.username} name='username' autoComplete='off' onChange={this.onInput}/>
+			<input type='text' value={user.firstname} name='firstname' autoComplete='off' onChange={this.onInput} />
+			<input type='text' value={user.lastname} name='lastname' autoComplete='off' onChange={this.onInput} />
+			<input type='password' value={user.password} name='password' autoComplete='off' onChange={this.onInput}/>
+			{/* {this.state.status === 'NEW' && <button>Save</button>}
+			{this.state.status === 'DONE' && <button onClick={this.onDelete}>delete</button>} */}
 		</form>);
 	}
 
@@ -119,7 +125,7 @@ export default function User({ routeParams }) {
 	return (<div className='User'>
 		<Header />
 		<h2>User {routeParams.userId}</h2>
-		{/* {this.state.status !== 'LOADING' ? renderUser() : null} */}
+		{/* {user.$meta.working === false ? renderUser() : null} */}
 	</div>);
 
 };

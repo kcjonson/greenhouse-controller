@@ -13,12 +13,14 @@ export default class SyncModel extends Model {
 		}
 
 		const getUrl = compile(url)(initialData);
+		this.$meta.working = true;
 		fetch(getUrl , {
 			credentials: 'same-origin',     
 		}).then(response => response.json())
 			.catch(error => console.error('Error:', error))
 			.then(data => {
 				console.log('data', data);
+				this.$meta.working = false;
 				this.set(data);
 			});
 	}
